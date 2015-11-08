@@ -1,0 +1,27 @@
+# cmake generated files
+CMakeFiles
+CMakeCache.txt
+*.vcxproj
+*.vcxproj.filters
+cmake_install.cmake
+*.sln
+*.sdf
+*.opensdf
+*.suo
+# vs generated files
+cefsimple/Debug
+cefsimple/Release
+cefsimple/cefsimple.dir
+cefsimple/cefsimple.aps
+cefsimple/debug.log
+libcef_dll/Debug
+libcef_dll/Release
+libcef_dll/libcef_dll_wrapper.dir
+x64/Debug
+x64/Release
+Win32/Debug
+Win32/Release
+# these bin files take up alot of space
+Debug
+Release
+Resources
