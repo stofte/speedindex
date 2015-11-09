@@ -1,3 +1,8 @@
+// speedindex definition from WebPageTest
+// https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index
+// chrome has some code implementation here:
+// https://github.com/ChromiumWebApps/chromium/blob/master/tools/perf/metrics/speedindex.py
+
 var _ = require('lodash');
 
 function firstLayoutTime(events) {
@@ -51,7 +56,7 @@ function timeAreaDict(events, width, height) {
             adjustedArea /= 2;
         }
         _.forEach(events, function(e) {
-            var endTime = e.ts;
+            var endTime = e.ts + e.dur;
             // there's no e.end, so assuming ts+dur works
             if (!timeAreas[endTime]) timeAreas[endTime] = 0;
             timeAreas[endTime] += adjustedArea;
@@ -91,7 +96,16 @@ function speedIndex(events, width, height) {
         prevTime = elm.ts;
     });
     // chrome dev tools uses microsecond ts it seems, but algorithm written for ms
-    return Math.round(idx / 1000);
+    var firstTs = Math.round(timeCompletenessList[0].ts / 1000);
+    return {
+        index: Math.round(idx / 1000),
+        graph: _.map(timeCompletenessList, function(elm) {
+            return {
+                time: (Math.round(elm.ts / 1000) - firstTs) / 1000,
+                completeness: elm.completeness
+            };
+        })
+    };
 }
 
 module.exports = speedIndex;
